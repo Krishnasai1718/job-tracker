@@ -1,0 +1,15 @@
+{% extends 'applications/base.html' %}
+
+{% block title %}Delete Application{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3">Delete Application</h1>
+
+<p>Are you sure you want to delete <strong>{{ application }}</strong>? This can't be undone.</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Yes, delete</button>
+  <a href="{% url 'application_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
