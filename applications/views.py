@@ -42,7 +42,6 @@ def application_delete(request, pk):
     return render(request, 'applications/application_confirm_delete.html', {'application': application})
 
 
-@login_required
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
