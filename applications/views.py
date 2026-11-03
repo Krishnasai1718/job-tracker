@@ -1,7 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.db.models import Q                                   # CHANGED: new import
+from django.db.models import Count, Q                                 # CHANGED: new import
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ApplicationForm
@@ -79,3 +79,24 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+
+@login_required
+def dashboard(request):
+    qs = Application.objects.filter(user=request.user)
+    counts = dict(qs.values_list('status').annotate(total=Count('id')))
+
+    stats = [
+        {'value': value, 'label': label, 'count': counts.get(value, 0)}
+        for value, label in Application.STATUS_CHOICES
+    ]
+    chart_data = {
+        'labels': [s['label'] for s in stats],
+        'data': [s['count'] for s in stats],
+    }
+    context = {
+        'stats': stats,
+        'total': sum(s['count'] for s in stats),
+        'chart_data': chart_data,
+    }
+    return render(request, 'applications/dashboard.html', context)
