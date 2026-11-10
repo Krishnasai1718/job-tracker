@@ -2,7 +2,7 @@
 
 A full-stack web app built with Django that helps job seekers track their applications, interview stages and offers in one place.
 
-**Live demo:** _coming soon_
+**Live demo:** [krishnasai.pythonanywhere.com](https://krishnasai.pythonanywhere.com)
 
 ## Features
 
